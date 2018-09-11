@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mock Server APIs in Postman</title>
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <header>
+            <h1>Mock Server APIs in Postman</h1>
+        </header>
+        <main>
+            <pre id="output"></pre>
+        </main>
+        <script>
+            // public
+            const URL = "";
+            // private
+            const URL = "";
+
+            document.addEventListener('DOMContentLoaded', ()=>{
+                document.body.addEventListener('click', (ev)=>{
+
+                    //add the x-api-key header for private server calls
+                    let h = new Headers();
+                    h.append('x-api-key', '');
+
+                    //set up the request options
+                    let options = {
+                        method: 'GET',
+                        headers: h,
+                        mode: 'cors',
+                        cache: 'default'
+                    }
+                    let req = new Request(URL, options);
+
+                    //make the fetch call
+                    fetch(req)
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .then(data=>{
+                        let out = document.getElementById('output');
+                        out.textContent = JSON.stringify(data, null, 2);
+                    })
+                    .catch(err=>{
+                        let out = document.getElementById('output');
+                        out.textContent = JSON.stringify(err);
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>
